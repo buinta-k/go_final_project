@@ -184,9 +184,11 @@ func handleWeekly(now time.Time, start time.Time, daysStr string) (string, error
 		data = data.AddDate(0, 0, 1)
 
 		if IsBefore(now, data) && weekdayMap[data.Weekday()] {
-			return data.Format("20060102"), nil
+			break
 		}
 	}
+
+	return data.Format("20060102"), nil
 }
 
 func handleMonthly(now time.Time, start time.Time, parts []string) (string, error) {
@@ -230,6 +232,8 @@ func handleMonthly(now time.Time, start time.Time, parts []string) (string, erro
 		start.Location(),
 	)
 
+	var result time.Time
+
 	for {
 		month := searchMonth.Month()
 
@@ -269,9 +273,12 @@ func handleMonthly(now time.Time, start time.Time, parts []string) (string, erro
 				return IsBefore(validDates[i], validDates[j])
 			})
 
-			return validDates[0].Format("20060102"), nil
+			result = validDates[0]
+			break
 		}
 
 		searchMonth = searchMonth.AddDate(0, 1, 0)
 	}
+
+	return result.Format("20060102"), nil
 }
