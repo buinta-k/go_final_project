@@ -3,6 +3,7 @@ package api
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -93,5 +94,32 @@ func auth(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		next(res, req)
+	})
+}
+
+func (s *Api) SignHandler(res http.ResponseWriter, req *http.Request) {
+	var pass password
+
+	err := json.NewDecoder(req.Body).Decode(&pass)
+	if err != nil {
+		writeError(res, "Ошибка парсинга пароля", http.StatusBadRequest)
+		return
+	}
+
+	password := os.Getenv("TODO_PASSWORD")
+
+	if pass.Password != password {
+		writeError(res, "Неверный пароль", http.StatusUnauthorized)
+		return
+	}
+
+	token, err := JWT(pass.Password)
+	if err != nil {
+		writeError(res, "Ошибка создания токена", http.StatusInternalServerError)
+		return
+	}
+
+	writeJson(res, map[string]string{
+		"token": token,
 	})
 }
