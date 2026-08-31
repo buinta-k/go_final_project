@@ -101,7 +101,7 @@ func (s *Api) TaskHandler(res http.ResponseWriter, req *http.Request) {
 
 	id, err := s.DB.AddTask(&task)
 	if err != nil {
-		writeError(res, "Ошибка добавления в базу", http.StatusBadRequest)
+		writeError(res, "Ошибка добавления в базу", http.StatusInternalServerError)
 		return
 	}
 	writeJson(res, db.Task{
@@ -128,7 +128,7 @@ func (s *Api) TasksHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	if err != nil {
-		writeError(res, "Ошибка извлечения тасков", http.StatusBadRequest)
+		writeError(res, "Ошибка извлечения тасков", http.StatusInternalServerError)
 		return
 	}
 
@@ -142,7 +142,7 @@ func (s *Api) GetHandler(res http.ResponseWriter, req *http.Request) {
 	id := req.URL.Query().Get("id")
 	task, err := s.DB.GetTask(id)
 	if err != nil {
-		writeError(res, "Задача не найдена", http.StatusBadRequest)
+		writeError(res, "Задача не найдена", http.StatusNotFound)
 		return
 	}
 
@@ -160,7 +160,7 @@ func (s *Api) PutHandler(res http.ResponseWriter, req *http.Request) {
 
 	err := json.NewDecoder(req.Body).Decode(&task)
 	if err != nil {
-		writeError(res, "Задача не найдена", http.StatusBadRequest)
+		writeError(res, "Ошибка парсинга", http.StatusBadRequest)
 		return
 	}
 
@@ -206,7 +206,7 @@ func (s *Api) PutHandler(res http.ResponseWriter, req *http.Request) {
 
 	err = s.DB.PutTask(task)
 	if err != nil {
-		writeError(res, "Задача не найдена", http.StatusBadRequest)
+		writeError(res, "Ошибка обновления задачи", http.StatusInternalServerError)
 		return
 	}
 
@@ -225,7 +225,7 @@ func (s *Api) ReadyHandler(res http.ResponseWriter, req *http.Request) {
 	if task.Repeat == "" {
 		err = s.DB.DeleteTask(id)
 		if err != nil {
-			writeError(res, "Ошибка удаления", http.StatusBadRequest)
+			writeError(res, "Ошибка удаления", http.StatusInternalServerError)
 			return
 		}
 		writeJson(res, map[string]string{})
@@ -240,7 +240,7 @@ func (s *Api) ReadyHandler(res http.ResponseWriter, req *http.Request) {
 
 	err = s.DB.UpdateDate(date, id)
 	if err != nil {
-		writeError(res, "Ошибка обновления даты", http.StatusBadRequest)
+		writeError(res, "Ошибка обновления даты", http.StatusInternalServerError)
 		return
 	}
 	writeJson(res, map[string]string{})
@@ -251,7 +251,7 @@ func (s *Api) DeleteHandler(res http.ResponseWriter, req *http.Request) {
 	err := s.DB.DeleteTask(id)
 
 	if err != nil {
-		writeError(res, "Ошибка удаления", http.StatusBadRequest)
+		writeError(res, "Ошибка удаления", http.StatusInternalServerError)
 		return
 	}
 

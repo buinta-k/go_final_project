@@ -36,7 +36,7 @@ func JWT(pass string) (string, error) {
 func ValidateJWT(tokenString string) bool {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if token.Method != jwt.SigningMethodHS256 {
-			return nil, fmt.Errorf("неожиданный метод подписи")
+			return nil, fmt.Errorf("Не тот метод")
 		}
 
 		return secret, nil
@@ -68,8 +68,6 @@ func auth(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		pass := os.Getenv("TODO_PASSWORD")
 
-		// Если пароль вообще не установлен,
-		// авторизация не требуется.
 		if len(pass) == 0 {
 			next(res, req)
 			return
