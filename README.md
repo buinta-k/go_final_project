@@ -24,11 +24,11 @@
    
   Запуск тестов
   
-  go test ./tests
-  Параметры для тестов:
-  var Port = 7540 var DBFile = "../scheduler.db" var FullNextDate = true var Search = true var Token = \`\`
+        go test ./tests
+        Параметры для тестов:
+        var Port = 7540 var DBFile = "../scheduler.db" var FullNextDate = true var Search = true var Token = \`\`
    
    Запуск через Docker
    
-   Сборка образа: docker build -t my-todo-app .
-   Запуск контейнера: docker run -d -p 7540:7540 `-e TODO_PASSWORD="12345"` -e TODO\_DBFILE="/app/scheduler.db" `-v "${PWD}\scheduler.db:/app/scheduler.db"` my-todo-app
+       Сборка образа: docker build -t my-todo-app .
+       Запуск контейнера: docker run -d -p 7540:7540 `-e TODO_PASSWORD="12345"` -e TODO\_DBFILE="/app/scheduler.db" `-v "${PWD}\scheduler.db:/app/scheduler.db"` my-todo-app
