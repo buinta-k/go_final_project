@@ -10,26 +10,25 @@
 Задания со звездочкой
 
     Выполнены все задания со звездочкой:
-   - добавление переменной окружения TODO\_PORT для сервера;
-   - определение пути к файлу через переменную окружения TODO\_DBFILE;
-   - реализация параметров w и m для правил повторения;
-   - реализация эндпоинта для поиска по словам в заголовке или комментарии и по дате;
-   - реализация механизма аутентификации.
+       - добавление переменной окружения TODO\_PORT для сервера;
+       - определение пути к файлу через переменную окружения TODO\_DBFILE;
+       - реализация параметров w и m для правил повторения;
+       - реализация эндпоинта для поиска по словам в заголовке или комментарии и по дате;
+       - реализация механизма аутентификации.
 
 Запуск проекта
 
-  Адрес для браузера: [http://localhost:7540](http://localhost:7540)
-
-   Для настройки проекта используются переменные окружения:
-   TODO\_PORT=7540 TODO\_PASSWORD=12345 TODO\_DBFILE=./scheduler.db
+        Адрес для браузера: [http://localhost:7540](http://localhost:7540)
+        Для настройки проекта используются переменные окружения:
+        TODO\_PORT=7540 TODO\_PASSWORD=12345 TODO\_DBFILE=./scheduler.db
    
   Запуск тестов
   
   go test ./tests
-   Параметры для тестов: var Port = 7540 var DBFile = "../scheduler.db" var FullNextDate = true var Search = true var Token = \`\`
+  Параметры для тестов:
+  var Port = 7540 var DBFile = "../scheduler.db" var FullNextDate = true var Search = true var Token = \`\`
    
    Запуск через Docker
    
    Сборка образа: docker build -t my-todo-app .
-
    Запуск контейнера: docker run -d -p 7540:7540 `-e TODO_PASSWORD="12345"` -e TODO\_DBFILE="/app/scheduler.db" `-v "${PWD}\scheduler.db:/app/scheduler.db"` my-todo-app
