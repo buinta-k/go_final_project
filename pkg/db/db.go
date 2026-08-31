@@ -119,7 +119,6 @@ func (s *Base) SearchTasksParam(param string, limit int) ([]*Task, error) {
 
 	rows, err := s.Conn.Query(query, "%"+param+"%", "%"+param+"%", limit)
 	if err != nil {
-		log.Println("!!! ОШИБКА rows.Scan:", err)
 		return nil, err
 	}
 	defer rows.Close()
