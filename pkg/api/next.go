@@ -200,7 +200,7 @@ func handleMonthly(now time.Time, start time.Time, parts []string) (string, erro
 		day, err := strconv.Atoi(val)
 
 		if err != nil || day == 0 || day < -2 || day > 31 {
-			return "", fmt.Errorf("недопустимый день месяца")
+			return "", fmt.Errorf("Недопустимый день месяца")
 		}
 
 		targetDays = append(targetDays, day)
@@ -217,7 +217,7 @@ func handleMonthly(now time.Time, start time.Time, parts []string) (string, erro
 			month, err := strconv.Atoi(token)
 
 			if err != nil || month < 1 || month > 12 {
-				return "", fmt.Errorf("недопустимый месяц")
+				return "", fmt.Errorf("Недопустимый месяц")
 			}
 
 			targetMonths[time.Month(month)] = true
