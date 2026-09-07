@@ -71,18 +71,16 @@ func (s *Base) AddTask(task *Task) (int64, error) {
 	var id int64
 	query := `INSERT INTO scheduler (date, title, comment, repeat) VALUES (?, ?, ?, ?)`
 	res, err := s.Conn.Exec(query, task.Date, task.Title, task.Comment, task.Repeat)
-	if err == nil {
-		id, err = res.LastInsertId()
-		if err == nil {
-			var checkID int64
-			err = s.Conn.QueryRow(
-				`SELECT id FROM scheduler WHERE id = ?`,
-				id,
-			).Scan(&checkID)
-
-		}
+	if err != nil {
+		return 0, err
 	}
-	return id, err
+
+	id, err = res.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
 }
 
 func (s *Base) Tasks(limit int) ([]*Task, error) {
