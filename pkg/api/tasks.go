@@ -153,7 +153,7 @@ func (s *Api) PutHandler(res http.ResponseWriter, req *http.Request) {
 		task.Date = now.Format(dateLayout)
 	}
 
-	_, err = time.Parse("20060102", task.Date)
+	_, err = time.Parse(dateLayout, task.Date)
 	if err != nil {
 		writeError(res, "Ошибка парсинга", http.StatusBadRequest)
 		return
