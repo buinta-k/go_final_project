@@ -14,7 +14,7 @@ func (s *Api) NextDayHandler(res http.ResponseWriter, req *http.Request) {
 	dstart := req.URL.Query().Get("date")
 	repeat := req.URL.Query().Get("repeat")
 
-	Now, err := time.Parse("20060102", now)
+	Now, err := time.Parse(dateLayout, now)
 	if err != nil {
 		writeError(res, "Ошибка", http.StatusBadRequest)
 		return
@@ -45,7 +45,7 @@ func (s *Api) TaskHandler(res http.ResponseWriter, req *http.Request) {
 
 	now := time.Now()
 	if task.Date == "" {
-		task.Date = now.Format("20060102")
+		task.Date = now.Format(dateLayout)
 	}
 
 	_, err = time.Parse("20060102", task.Date)
@@ -63,8 +63,8 @@ func (s *Api) TaskHandler(res http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	if task.Repeat == "" && task.Date < now.Format("20060102") {
-		task.Date = now.Format("20060102")
+	if task.Repeat == "" && task.Date < now.Format(dateLayout) {
+		task.Date = now.Format(dateLayout)
 	}
 
 	var result string
@@ -100,7 +100,7 @@ func (s *Api) TasksHandler(res http.ResponseWriter, req *http.Request) {
 		date, parseErr := time.Parse("02.01.2006", searchParam)
 
 		if parseErr == nil {
-			tasks, err = s.DB.SearchTasksDate(date.Format("20060102"), 50)
+			tasks, err = s.DB.SearchTasksDate(date.Format(dateLayout), 50)
 		} else {
 			tasks, err = s.DB.SearchTasksParam(searchParam, 50)
 		}
@@ -150,7 +150,7 @@ func (s *Api) PutHandler(res http.ResponseWriter, req *http.Request) {
 
 	now := time.Now()
 	if task.Date == "" {
-		task.Date = now.Format("20060102")
+		task.Date = now.Format(dateLayout)
 	}
 
 	_, err = time.Parse("20060102", task.Date)
@@ -168,13 +168,13 @@ func (s *Api) PutHandler(res http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	if task.Repeat == "" && task.Date < now.Format("20060102") {
-		task.Date = now.Format("20060102")
+	if task.Repeat == "" && task.Date < now.Format(dateLayout) {
+		task.Date = now.Format(dateLayout)
 	}
 
 	var result string
 
-	if task.Repeat != "" && task.Date < now.Format("20060102") && task.Date != now.Format("20060102") {
+	if task.Repeat != "" && task.Date < now.Format(dateLayout) && task.Date != now.Format(dateLayout) {
 		result, err = NextDate(now, task.Date, task.Repeat)
 		if err != nil {
 			writeError(res, "Ошибка next date", http.StatusBadRequest)
