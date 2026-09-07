@@ -87,17 +87,15 @@ func (s *Base) AddTask(task *Task) (int64, error) {
 
 func (s *Base) Tasks(limit int) ([]*Task, error) {
 	tasks := make([]*Task, 0, 50)
-	query := `SELECT * FROM scheduler`
-	rows, err := s.Conn.Query(query)
+	query := `SELECT id, date, title, comment, repeat FROM scheduler ORDER BY date LIMIT ?`
+	rows, err := s.Conn.Query(query, limit)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	count := 0
-	for rows.Next() && count != limit {
+	for rows.Next() {
 		var task Task
-		count++
 		err = rows.Scan(&task.ID, &task.Date, &task.Title, &task.Comment, &task.Repeat)
 		if err != nil {
 			return nil, err
