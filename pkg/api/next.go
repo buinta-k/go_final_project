@@ -9,7 +9,7 @@ import (
 )
 
 func IsBefore(t1, t2 time.Time) bool {
-	return t1.Format("20060102") < t2.Format("20060102")
+	return t1.Format(dateLayout) < t2.Format(dateLayout)
 }
 
 func Validate(repeat []string) (string, error) {
@@ -109,7 +109,7 @@ func NextDate(now time.Time, dstart string, repeat string) (string, error) {
 		return "", err
 	}
 
-	start, err := time.Parse("20060102", dstart)
+	start, err := time.Parse(dateLayout, dstart)
 	if err != nil {
 		return "", err
 	}
@@ -147,7 +147,7 @@ func handleYearly(now time.Time, start time.Time) (string, error) {
 		}
 	}
 
-	return data.Format("20060102"), nil
+	return data.Format(dateLayout), nil
 }
 
 func handleDaily(now time.Time, start time.Time, num int) (string, error) {
@@ -161,7 +161,7 @@ func handleDaily(now time.Time, start time.Time, num int) (string, error) {
 		}
 	}
 
-	return data.Format("20060102"), nil
+	return data.Format(dateLayout), nil
 }
 
 func handleWeekly(now time.Time, start time.Time, daysStr string) (string, error) {
@@ -280,5 +280,5 @@ func handleMonthly(now time.Time, start time.Time, parts []string) (string, erro
 		searchMonth = searchMonth.AddDate(0, 1, 0)
 	}
 
-	return result.Format("20060102"), nil
+	return result.Format(dateLayout), nil
 }
