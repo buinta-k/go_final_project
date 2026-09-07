@@ -21,6 +21,10 @@
         Адрес для браузера: [http://localhost:7540](http://localhost:7540)
         Для настройки проекта используются переменные окружения:
         TODO\_PORT=7540 TODO\_PASSWORD=12345 TODO\_DBFILE=./scheduler.db
+        Запуск: $env:TODO_PORT="7540"
+                $env:TODO_PASSWORD="12345"
+                $env:TODO_DBFILE="./scheduler.db"
+                go run .
    
   Запуск тестов
   
