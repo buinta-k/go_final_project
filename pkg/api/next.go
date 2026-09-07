@@ -188,7 +188,7 @@ func handleWeekly(now time.Time, start time.Time, daysStr string) (string, error
 		}
 	}
 
-	return data.Format("20060102"), nil
+	return data.Format(dateLayout), nil
 }
 
 func handleMonthly(now time.Time, start time.Time, parts []string) (string, error) {
