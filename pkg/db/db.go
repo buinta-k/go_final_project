@@ -49,6 +49,7 @@ func Init(dbFile string) (*Base, error) {
 
 	_, err = db.Exec(Schema)
 	if err != nil {
+		db.Close()
 		return nil, fmt.Errorf("Ошибка заполнения бд %v", err)
 	}
 
