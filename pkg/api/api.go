@@ -5,6 +5,8 @@ import (
 	"project/pkg/db"
 )
 
+const dateLayout = "20060102"
+
 type Api struct {
 	DB *db.Base
 }
