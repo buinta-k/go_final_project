@@ -48,7 +48,7 @@ func (s *Api) TaskHandler(res http.ResponseWriter, req *http.Request) {
 		task.Date = now.Format(dateLayout)
 	}
 
-	_, err = time.Parse("20060102", task.Date)
+	_, err = time.Parse(dateLayout, task.Date)
 	if err != nil {
 		writeError(res, "Ошибка парсинга", http.StatusBadRequest)
 		return
@@ -69,7 +69,7 @@ func (s *Api) TaskHandler(res http.ResponseWriter, req *http.Request) {
 
 	var result string
 
-	if task.Repeat != "" && task.Date < now.Format("20060102") && task.Date != now.Format("20060102") {
+	if task.Repeat != "" && task.Date < now.Format(dateLayout) && task.Date != now.Format(dateLayout) {
 		result, err = NextDate(now, task.Date, task.Repeat)
 		if err != nil {
 			writeError(res, "Ошибка next date", http.StatusBadRequest)
